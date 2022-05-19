@@ -1,0 +1,27 @@
+﻿@page "/register"
+@inject IUserVM UserVM
+@inject NavigationManager NavigationManager
+
+    <MudForm Model=UserVM.Magacioner>
+              <MudTextField @bind-Value=UserVM.Magacioner.Name Label="Name"/>
+              <MudTextField @bind-Value=UserVM.Magacioner.Surname Label="Surname"/>
+              <MudTextField @bind-Value=UserVM.Magacioner.UserName Label="UserName"/>
+              <MudTextField  @bind-Value="UserVM.Magacioner.ClearTextPassword" Label="Password" 
+                  InputType=InputType 
+                  Adornment="Adornment.End" 
+                  AdornmentIcon="@Icons.Custom.Uncategorized.Radioactive" Color="Color.Primary" 
+                  OnAdornmentClick="() => InputType = InputType == InputType.Password? InputType.Text:InputType.Password"
+                  AdornmentAriaLabel="Show Password" />  
+               <MudButton @onclick=' async () =>
+                { 
+                    await UserVM.RegisterAsync(); 
+                    NavigationManager.NavigateTo("/login");                    
+
+                }' >Click Me!</MudButton>
+        </MudForm>
+
+@code {
+
+    private InputType InputType { get; set; } = InputType.Password;
+
+}

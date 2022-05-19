@@ -1,5 +1,15 @@
 ﻿<MudNavMenu>
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
-    <MudNavLink Href="fetchdata" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Fetch data</MudNavLink>
+    <AuthorizeView>
+        <NotAuthorized>
+             <MudNavLink Href="/Identity/Account/Login" Match="NavLinkMatch.All" Icon="@Icons.Custom.Uncategorized.Radioactive" Color="Color.Error">Login</MudNavLink>
+            <MudNavLink Href="/register" Match="NavLinkMatch.All" Icon="@Icons.Custom.Uncategorized.Radioactive" Color="Color.Success">Register</MudNavLink>
+        </NotAuthorized>
+        <Authorized>
+            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </Authorized>
+    </AuthorizeView>
 </MudNavMenu>
+

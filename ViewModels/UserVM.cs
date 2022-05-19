@@ -6,6 +6,7 @@ namespace Magacin.ViewModels
     public interface IUserVM
     {
         Task RegisterAsync();
+        Magacioner Magacioner { get;}
     }
 
     public class UserVM : IUserVM
