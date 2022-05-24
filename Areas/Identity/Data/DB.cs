@@ -19,10 +19,13 @@ public class DB : IdentityDbContext<Magacioner>
         builder.Entity<Magacioner>().Ignore(m => m.ClearTextPassword);
         builder.Entity<Item>().HasKey(i => i.Id);
         builder.Entity<IO>().HasKey(i => i.Id);
+        builder.Entity<IO>().Ignore(i => i.Items);
     }
 
     public DbSet<Magacioner> Magacioners { get; set; }
 
     public DbSet<Item> Items { get; set; }
     public DbSet<IO> IOs { get; set; }
+    public DbSet<Input> Inputs { get; set; }
+    public DbSet<Output> Outputs { get; set; }
 }

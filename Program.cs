@@ -20,10 +20,10 @@ builder.Services.AddDefaultIdentity<Magacioner>()
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
 
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IItemService, ItemService>();
 builder.Services.AddTransient<IUserVM, UserVM>();
 
 var app = builder.Build();
