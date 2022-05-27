@@ -24,7 +24,9 @@ builder.Services.AddMudServices();
 
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IItemService, ItemService>();
+
 builder.Services.AddTransient<IUserVM, UserVM>();
+builder.Services.AddTransient<IInputVM, InputVM>();
 
 var app = builder.Build();
 

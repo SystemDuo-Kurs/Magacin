@@ -6,8 +6,9 @@
             <MudNavLink Href="/register" Match="NavLinkMatch.All" Icon="@Icons.Custom.Uncategorized.Radioactive" Color="Color.Success">Register</MudNavLink>
         </NotAuthorized>
         <Authorized>
+            <MudNavLink Href="/inputs" Match="NavLinkMatch.All" Icon="@Icons.Custom.Uncategorized.Radioactive" Color="Color.Success">Inputs</MudNavLink>
             <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout">
-                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>x` 
             </form>
         </Authorized>
     </AuthorizeView>

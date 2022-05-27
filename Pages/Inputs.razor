@@ -1,0 +1,17 @@
+﻿@page "/inputs"
+@inject IInputVM InputVM
+
+<MudAutocomplete T="Item" Label="Items" @bind-Value="InputVM.SelectedItem"
+    SearchFunc="(txt) => Task.FromResult(InputVM.Items.Where(i => i.Name.ToUpper().Contains(txt?.ToUpper())))"
+    ToStringFunc="(item) => item is not null ? item.Name: string.Empty"
+/>
+                         
+
+@code 
+{
+    protected override async Task OnInitializedAsync()
+    {
+        await InputVM.GetAllAsync();
+    }
+
+}
