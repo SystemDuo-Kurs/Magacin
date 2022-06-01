@@ -27,6 +27,7 @@ builder.Services.AddTransient<IItemService, ItemService>();
 
 builder.Services.AddTransient<IUserVM, UserVM>();
 builder.Services.AddTransient<IInputVM, InputVM>();
+builder.Services.AddTransient<IItemEdit, ItemEdit>();
 
 var app = builder.Build();
 

@@ -1,17 +1,25 @@
 ﻿@page "/inputs"
 @inject IInputVM InputVM
+@inject IDialogService DialogService
 
 <MudAutocomplete T="Item" Label="Items" @bind-Value="InputVM.SelectedItem"
     SearchFunc="(txt) => Task.FromResult(InputVM.Items.Where(i => i.Name.ToUpper().Contains(txt?.ToUpper())))"
     ToStringFunc="(item) => item is not null ? item.Name: string.Empty"
 />
-                         
+  <MudButton @onclick='OpenDialog'
+      Variant="Variant.Filled" Color="Color.Primary">Add Item</MudButton>
 
 @code 
 {
     protected override async Task OnInitializedAsync()
     {
         await InputVM.GetAllAsync();
+    }
+    public void OpenDialog()
+    {
+        DialogParameters dialogParameters = new();
+        dialogParameters.Add("Update",() => { InputVM.GetAllAsync(); StateHasChanged();});
+        DialogService.Show<ItemEditor>("Add Item", dialogParameters);
     }
 
 }

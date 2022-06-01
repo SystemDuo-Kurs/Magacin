@@ -1,0 +1,20 @@
+﻿@inject IItemEdit ItemEdit
+
+<MudForm Model=ItemEdit.Item>
+        <MudTextField T="string" Label="Name" @bind-Value=ItemEdit.Item.Name/>
+        <MudTextField T="decimal" Label="Price" @bind-Value=ItemEdit.Item.Price/>
+    <MudSelect T="Unit" Label="Unit Of Measurment" @bind-Value=ItemEdit.Item.Unit>
+        <MudSelectItem Value="Unit.Kg" />
+        <MudSelectItem Value="Unit.l" />
+        <MudSelectItem Value="Unit.m" />
+        <MudSelectItem Value="Unit.ps" />
+    </MudSelect>
+    <MudButton @onclick="async()=> {await ItemEdit.ItemUpdateAsync(); Update?.Invoke(); MudDialog.Close();}">Add</MudButton>
+</MudForm>
+
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public Action Update { get; set; }
+}
