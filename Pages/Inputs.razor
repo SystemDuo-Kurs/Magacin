@@ -3,11 +3,34 @@
 @inject IDialogService DialogService
 
 <MudAutocomplete T="Item" Label="Items" @bind-Value="InputVM.SelectedItem"
-    SearchFunc="(txt) => Task.FromResult(InputVM.Items.Where(i => i.Name.ToUpper().Contains(txt?.ToUpper())))"
+    SearchFunc="(txt) => Task.FromResult(InputVM.Items.Where(i => i is not null && i.Name.ToUpper().Contains
+                (txt is null? string.Empty:txt.ToUpper())))"
     ToStringFunc="(item) => item is not null ? item.Name: string.Empty"
 />
   <MudButton @onclick='OpenDialog'
       Variant="Variant.Filled" Color="Color.Primary">Add Item</MudButton>
+
+<MudButton @onclick='()=>{InputVM.AddItem(); StateHasChanged();}'
+Variant="Variant.Filled" Color="Color.Primary">Add Item to Input</MudButton>
+
+<MudButton @onclick='async ()=> await InputVM.UpdateInputAsync()'
+Variant="Variant.Filled" Color="Color.Primary">Save</MudButton>
+
+<MudTable T="Item" Items="InputVM.Input.Items.Keys">
+    <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Amount</MudTh>
+            <MudTh>Unit</MudTh>
+            <MudTh>Price</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+            <MudTd>@context.Name</MudTd>
+            <MudTd>@InputVM.Input.Items[context]</MudTd>
+            <MudTd>@context.Unit</MudTd>
+            <MudTd>@context.Price</MudTd>
+    </RowTemplate>
+</MudTable>
 
 @code 
 {

@@ -6,9 +6,10 @@ namespace Magacin.Services
 {
     public interface IItemService 
     {
-        Task UpdateInputAsync(Input input);
         Task<List<Item>> GetAllAsync();
         Task ItemUpdateAsync(Item item);
+        Task UpdateIOAsync(IO io);
+
     }
     public class ItemService : IItemService
     {
@@ -17,19 +18,27 @@ namespace Magacin.Services
         {
             Db = db;      
         }
-        public async Task UpdateInputAsync (Input input)
-        {
-            input.Items.Keys.ToList().ForEach(item => { if (item.Id == 0) Db.Items.Add(item); });
-            await Db.SaveChangesAsync();
-            input.GenerateJson();
-            Db.Update(input);
-            await Db.SaveChangesAsync();
-        }
+
         public async Task<List<Item>> GetAllAsync()
             => await Db.Items.ToListAsync();
         public async Task ItemUpdateAsync(Item item)
         {
             Db.Update(item);
+            await Db.SaveChangesAsync();
+        }
+
+        public async Task UpdateIOAsync(IO io)
+        {
+            if (io is Input)
+            {
+                io.Items.ToList().ForEach(item => item.Key.Amount += item.Value);
+            }
+            else
+            {
+                io.Items.ToList().ForEach(item => item.Key.Amount -= item.Value);
+            }
+            io.GenerateJson();
+            Db.Update(io);
             await Db.SaveChangesAsync();
         }
     }

@@ -10,7 +10,8 @@ namespace Magacin.ViewModels
         Input Input { get; set; }
         double Amount { get; set; }
         Task GetAllAsync();
-        void AddItem(Item item);
+        void AddItem();
+        Task UpdateInputAsync();
     }
     public class InputVM : IInputVM
     {
@@ -25,10 +26,24 @@ namespace Magacin.ViewModels
         }
         public async Task GetAllAsync() 
             => Items = await ItemService.GetAllAsync();
-        public void AddItem(Item item)
+        public void AddItem()
         {
-            Input.Items.Add(item, Amount);
+            if (Input.Items.ContainsKey(SelectedItem))
+            {
+                Input.Items[SelectedItem] = Amount;
+            }
+            else
+            {
+                Input.Items.Add(SelectedItem, Amount);
+            }
+            SelectedItem = null;
             Amount = 1;
+        }
+
+        public async Task UpdateInputAsync()
+        {
+            await ItemService.UpdateIOAsync(Input);
+            Input = new();
         }
 
     }
