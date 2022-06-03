@@ -8,7 +8,7 @@ namespace Magacin.Services
     {
         Task<List<Item>> GetAllAsync();
         Task ItemUpdateAsync(Item item);
-        Task UpdateIOAsync(IO io);
+        Task <(bool isOkay, List<string> errors)> UpdateIOAsync(IO io);
 
     }
     public class ItemService : IItemService
@@ -27,8 +27,18 @@ namespace Magacin.Services
             await Db.SaveChangesAsync();
         }
 
-        public async Task UpdateIOAsync(IO io)
+        public async Task <(bool isOkay, List<string> errors)> UpdateIOAsync(IO io)
         {
+            (bool isOkay, List<string> errors) result = (true, new());
+                
+            if (io is null)
+            {
+                result.isOkay = false;
+                result.errors.Add("IO is null");
+
+                return result;
+            }
+
             if (io is Input)
             {
                 io.Items.ToList().ForEach(item => item.Key.Amount += item.Value);
@@ -37,9 +47,22 @@ namespace Magacin.Services
             {
                 io.Items.ToList().ForEach(item => item.Key.Amount -= item.Value);
             }
+
             io.GenerateJson();
-            Db.Update(io);
-            await Db.SaveChangesAsync();
+
+            try
+            {
+                Db.Update(io);
+                await Db.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                result.isOkay = false;
+                result.errors.Add(e.Message);
+                return result;
+            }
+
+            return result;
         }
     }
 }

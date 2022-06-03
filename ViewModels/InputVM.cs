@@ -11,7 +11,7 @@ namespace Magacin.ViewModels
         double Amount { get; set; }
         Task GetAllAsync();
         void AddItem();
-        Task UpdateInputAsync();
+        Task<(bool isOkay, List<string> errors)> UpdateInputAsync();
     }
     public class InputVM : IInputVM
     {
@@ -40,10 +40,15 @@ namespace Magacin.ViewModels
             Amount = 1;
         }
 
-        public async Task UpdateInputAsync()
+        public async Task<(bool isOkay, List<string> errors)> UpdateInputAsync()
         {
-            await ItemService.UpdateIOAsync(Input);
-            Input = new();
+            var result = await ItemService.UpdateIOAsync(Input);
+            if(result.isOkay)
+            {
+                Input = new();
+            }
+
+            return result;
         }
 
     }
