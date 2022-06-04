@@ -28,6 +28,11 @@ namespace Magacin.ViewModels
             => Items = await ItemService.GetAllAsync();
         public void AddItem()
         {
+            if(SelectedItem is null)
+            {
+                return;
+            }
+
             if (Input.Items.ContainsKey(SelectedItem))
             {
                 Input.Items[SelectedItem] = Amount;

@@ -14,7 +14,6 @@ namespace Magacin.Models
             Items.Add(item, amount);
             GenerateJson();
         }
-
         public void GenerateJson()
             => ItemsForDb = JsonSerializer.
             Serialize(Items.Select(pair => new KeyValuePair<int, double>(pair.Key.Id, pair.Value)));
